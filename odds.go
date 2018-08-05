@@ -16,9 +16,11 @@ func main() {
 		odds = append(odds, odd)
 	}
 	overallOdds := calculateOdds(odds)
-	fmt.Println("Total Odds:", fmt.Sprintf("%.2f", overallOdds), "for 1")
+	fmt.Println()
+	fmt.Println("Odds:", fmt.Sprintf("%.2f", overallOdds-float64(1))+" to 1", "("+fmt.Sprintf("%.2f", overallOdds)+" for 1"+")")
 	fmt.Println("$100 to win:", "$"+strconv.FormatFloat((float64(100)*overallOdds)-float64(100), 'f', 2, 64))
 	fmt.Println("Total win:", "$"+strconv.FormatFloat(float64(100)*overallOdds, 'f', 2, 64))
+	fmt.Println()
 }
 
 func calculateOdds(odds []int) float64 {
