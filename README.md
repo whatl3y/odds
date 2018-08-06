@@ -26,7 +26,7 @@ $ odds -110 120 -240
 # Total win: $595.00
 
 # if '$GOPATH/bin' is NOT in your path:
-$ $GOPATH/bin/odds -110 120 -240 customer_id
+$ $GOPATH/bin/odds -110 120 -240
 # Total Odds: 4.95 to 1 (5.95 for 1)
 # $100 to win: $495.00
 # Total win: $595.00
