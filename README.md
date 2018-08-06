@@ -6,6 +6,7 @@ list of single events' odds in American format (i.e -110, 100, etc.).
 ## Install
 
 ```sh
+$ go get github.com/whatl3y/odds
 $ go install github.com/whatl3y/odds
 ```
 
