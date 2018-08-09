@@ -54,12 +54,12 @@ func TestGCDRemainderRecursive(t *testing.T) {
 }
 
 func TestCalculateArbitrageProfitMargin(t *testing.T) {
-	ret, _ := CalculateArbitrageProfitMargin([]int{-238, 293})
+	ret, _, _ := CalculateArbitrageProfitMargin([]int{-238, 293})
 	if floorToNDecimals(ret, 1) != 5.8 {
 		t.Error("Error calculating Arbitrage return on $100 wager: expected 5.8", floorToNDecimals(ret, 1))
 	}
 
-	ret9, _ := CalculateArbitrageProfitMargin([]int{-110, -111}, 100.0)
+	ret9, _, _ := CalculateArbitrageProfitMargin([]int{-110, -111}, 100.0)
 	if ret9 > -9.0 {
 		t.Error("Error calculating Arbitrage return on $100 wager: expected return < -9", ret9)
 	}

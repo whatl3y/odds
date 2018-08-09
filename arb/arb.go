@@ -17,16 +17,17 @@ func main() {
 		}
 		odds = append(odds, odd)
 	}
-	expectedReturn, totalWagered := c.CalculateArbitrageProfitMargin(odds)
+	expectedReturn, totalWagered, individualWagers := c.CalculateArbitrageProfitMargin(odds)
 
 	// Show the profit margin and expected return from a 100 base unit
 	// Anything positive for expected return provides an opportunity
 	// for betting arbitrage, otherwise there is a net negative return
 	fmt.Printf(`
-100 base unit
+%s base unit
+Individual Wagers: %v
 Total Wagered: %f
 Expected return: %f
 Profit Margin: %f%%
 
-`, totalWagered, expectedReturn, (expectedReturn/totalWagered)*100)
+`, c.GetDefaultEnv("WAGER_AMOUNT", "100"), individualWagers, totalWagered, expectedReturn, (expectedReturn/totalWagered)*100)
 }

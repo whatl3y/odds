@@ -2,12 +2,13 @@ package conversions
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
 
 // RoundingPrecision determines how precise fractional odds will be.
-var RoundingPrecision = 5
+var RoundingPrecision, _ = strconv.Atoi(GetDefaultEnv("ROUNDING_PRECISION", "4"))
 
 // CalculateOdds takes all American odds provided (i.e. -110, 124, etc.)
 // and generates the aggregate odds of winning a bet.
@@ -61,7 +62,7 @@ func GetFractionallOddsFromOverallOdds(overallOdds float64) string {
 	oddsToOne := overallOdds - float64(1)
 	oddsToOneRounded := fmt.Sprintf("%."+strconv.Itoa(RoundingPrecision)+"f", oddsToOne)
 	fOddsToOneRounded, _ := strconv.ParseFloat(oddsToOneRounded, 64)
-	roundingPrecisionMultiple, _ := strconv.Atoi("1" + strings.Join(make([]string, RoundingPrecision), "0"))
+	roundingPrecisionMultiple, _ := strconv.Atoi("1" + strings.Join(make([]string, RoundingPrecision+1), "0"))
 
 	oddsToOneInt := int(fOddsToOneRounded * float64(roundingPrecisionMultiple))
 	gcd := GCDRemainderRecursive(oddsToOneInt, roundingPrecisionMultiple)
@@ -82,28 +83,40 @@ func GCDRemainderRecursive(a, b int) int {
 // it is impossible to place an Arbitrage bet, whereas anything positive
 // means you can place an Arbitrage bet and be guaranteed to win as long
 // as one wager in the set is guaranteed to win.
-func CalculateArbitrageProfitMargin(odds []int, extras ...float64) (float64, float64) {
-	wagerAmount := 100.0
+func CalculateArbitrageProfitMargin(odds []int, extras ...float64) (float64, float64, map[int]float64) {
+	wagerAmount, _ := strconv.ParseFloat(GetDefaultEnv("WAGER_AMOUNT", "100.0"), 64)
 	if len(extras) > 0 {
 		wagerAmount = extras[0]
 	}
 
+	individualWagers := make(map[int]float64)
 	totalWagered := wagerAmount
 	min, _ := minMax(odds)
 	minOddsTotalWinAmount := floorToNDecimals(wagerAmount * SingleBetOdds(min))
 	alreadySkippedMin := false
 
 	for _, odd := range odds {
+		oddsDecimal := SingleBetOdds(odd)
+		thisOddWagerAmount := floorToNDecimals(minOddsTotalWinAmount / oddsDecimal)
+		individualWagers[odd] = thisOddWagerAmount
 		if odd != min || alreadySkippedMin {
-			oddsDecimal := SingleBetOdds(odd)
-			thisOddWagerAmount := floorToNDecimals(minOddsTotalWinAmount / oddsDecimal)
 			totalWagered += thisOddWagerAmount
 		} else {
 			alreadySkippedMin = true
 		}
 	}
 
-	return minOddsTotalWinAmount - totalWagered, totalWagered
+	return minOddsTotalWinAmount - totalWagered, totalWagered, individualWagers
+}
+
+// GetDefaultEnv gets an environment variable if present, otherwise
+// uses a default fallback provided.
+func GetDefaultEnv(key, fallback string) string {
+	value := os.Getenv(key)
+	if len(value) == 0 {
+		return fallback
+	}
+	return value
 }
 
 func floorToNDecimals(f float64, p ...int) float64 {
