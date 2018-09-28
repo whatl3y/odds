@@ -22,19 +22,33 @@ $ go get github.com/whatl3y/odds/odds
 ```sh
 # if '$GOPATH/bin' is in your path:
 $ odds 100
-# Total Odds: 1.00 to 1 (2.00 for 1)
+# American Odds: +100
+# Decimal Odds: 2.00
+# Fractional Odds: 1/1
+# General Odds: 1.00 to 1 (2.00 for 1)
+#
 # $100 to win: $100.00
 # Total win: $200.00
 
 # Multiple lines to calculate parlay odds
 $ odds -110 120 -240
-# Total Odds: 4.95 to 1 (5.95 for 1)
+# American Odds: +495
+# Decimal Odds: 5.95
+# Fractional Odds: 99/20
+# General Odds: 4.95 to 1 (5.95 for 1)
+#
 # $100 to win: $495.00
 # Total win: $595.00
 
 # if '$GOPATH/bin' is NOT in your path:
 $ $GOPATH/bin/odds -110 120 -240
-# Total Odds: 4.95 to 1 (5.95 for 1)
+$ # or
+$ $(go env GOPATH)/bin/odds -110 120 -240
+# American Odds: +495
+# Decimal Odds: 5.95
+# Fractional Odds: 99/20
+# General Odds: 4.95 to 1 (5.95 for 1)
+#
 # $100 to win: $495.00
 # Total win: $595.00
 ```
@@ -59,12 +73,14 @@ $ go get github.com/whatl3y/odds/arb
 ```sh
 $ arb -110 -110
 # 100 base unit
+# Individual Wagers: map[-110:99.99]
 # Total Wagered: 199.990000
 # Expected return: -9.090000
 # Profit Margin: -4.545227%
 
 $ arb -238 293
 # 100 base unit
+# Individual Wagers: map[-238:99.99 293:36.13]
 # Total Wagered: 136.130000
 # Expected return: 5.880000
 # Profit Margin: 4.319401%

@@ -33,7 +33,7 @@ Total win: $%s
 `,
 		c.GetAmericanOddsFromOverall(overallOdds),
 		fmt.Sprintf("%.2f", overallOdds),
-		c.GetFractionallOddsFromOverallOdds(overallOdds),
+		c.GetFractionalOddsFromOverallOdds(overallOdds),
 		fmt.Sprintf("%.2f", overallOdds-float64(1)),
 		fmt.Sprintf("%.2f", overallOdds),
 		strconv.FormatFloat((float64(100)*overallOdds)-float64(100), 'f', 2, 64),

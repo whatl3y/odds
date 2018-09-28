@@ -34,13 +34,13 @@ func TestGetAmericanOddsFromOverall(t *testing.T) {
 	}
 }
 
-func TestGetFractionallOddsFromOverallOdds(t *testing.T) {
-	fr1 := GetFractionallOddsFromOverallOdds(2)
+func TestGetFractionalOddsFromOverallOdds(t *testing.T) {
+	fr1 := GetFractionalOddsFromOverallOdds(2)
 	if fr1 != "1/1" {
 		t.Error("Fractional odds not returned correctly: expected 1/1", fr1)
 	}
 
-	fr2 := GetFractionallOddsFromOverallOdds(1.5)
+	fr2 := GetFractionalOddsFromOverallOdds(1.5)
 	if fr2 != "1/2" {
 		t.Error("Fractional odds not returned correctly: expected 1/2", fr2)
 	}

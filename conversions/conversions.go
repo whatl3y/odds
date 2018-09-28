@@ -56,9 +56,9 @@ func GetAmericanOddsFromOverall(overallOdds float64) string {
 	return "+" + fmt.Sprintf("%.0f", overallOdds*100)
 }
 
-// GetFractionallOddsFromOverallOdds converts the overall odds, as returned from
+// GetFractionalOddsFromOverallOdds converts the overall odds, as returned from
 // CalculateOdds and returns a string of the fractional odds.
-func GetFractionallOddsFromOverallOdds(overallOdds float64) string {
+func GetFractionalOddsFromOverallOdds(overallOdds float64) string {
 	oddsToOne := overallOdds - float64(1)
 	oddsToOneRounded := fmt.Sprintf("%."+strconv.Itoa(RoundingPrecision)+"f", oddsToOne)
 	fOddsToOneRounded, _ := strconv.ParseFloat(oddsToOneRounded, 64)
